@@ -1,0 +1,117 @@
+.header {
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 50;
+	width: 100%;
+	position: fixed;
+	// .header__container
+	&__container {
+	}
+	// .header__body
+	&__body {
+		margin-top: 30px;
+		border-radius: 24px;
+		padding: 12px 12px 12px 24px;
+
+		background-color: #fff;
+		backdrop-filter: blur(18px);
+		box-shadow: 0 5px 18px 3px rgba(0, 0, 0, 0.06);
+
+		@media (width < toEm($mobile)) {
+			padding: 16px;
+			border-radius: 16px;
+		}
+
+		@media (width < toEm($mobile)) {
+			margin-top: 10px;
+		}
+	}
+	// .header__inner
+	&__inner {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+	// .header__aside
+	&__aside {
+		display: flex;
+		align-items: center;
+		@include adaptiveValue("gap", 36, 18, 2, $containerWidth, 768);
+	}
+	// .header__logo
+	&__logo {
+		transition: filter 0.3s ease;
+		html:not([data-fls-touch]) & {
+			@media (any-hover: hover), (pointer: fine) {
+				&:hover {
+					filter: grayscale(1);
+				}
+			}
+		}
+	}
+	// .header__actions
+	&__actions {
+	}
+	// .header__button
+	&__button {
+		transition: all 0.5s;
+		span {
+			cursor: pointer;
+			transition: 0.5s;
+			position: relative;
+			display: inline-block;
+			&::after {
+				content: "for free";
+				top: 0;
+				opacity: 0;
+				right: -20px;
+				transition: 0.7s;
+				position: absolute;
+			}
+		}
+		html:not([data-fls-touch]) & {
+			@media (any-hover: hover), (pointer: fine) {
+				&:hover {
+					span {
+						padding-right: 62px;
+						&::after {
+							right: 0;
+							opacity: 1;
+						}
+					}
+				}
+			}
+		}
+		@media (width < toEm($mobile)) {
+			width: 100%;
+		}
+	}
+	// .header__icon
+	&__icon {
+	}
+	// .header__menu-ts
+	&__menu-ts {
+		@media (width >= toEm($mobile)) {
+			display: none;
+		}
+		@media (width < toEm($mobile)) {
+			display: grid;
+			grid-template-rows: 0fr;
+			transition: grid-template-rows 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+
+			@media (prefers-reduced-motion: reduce) {
+				transition-duration: 0.01ms;
+			}
+
+			> * {
+				min-height: 0;
+				overflow: hidden;
+			}
+
+			[data-fls-menu-open] & {
+				grid-template-rows: 1fr;
+			}
+		}
+	}
+}

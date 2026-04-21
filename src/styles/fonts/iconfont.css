@@ -1,0 +1,17 @@
+@font-face { 
+	font-family: "iconfont"; 
+	font-display: swap;
+	src: url("/Users/oscarzhantaev/Development/satex-landing/src/assets/svgicons/preview/iconfont.woff2?1e8e44930b8930545f02bed41fb055fc") format("woff2"); 
+} 
+[class*="--icon-"]::before{
+	font-family: iconfont; 
+}
+	[class*="--icon-check"]::before { 
+		content: "\f101"; 
+	} 
+	[class*="--icon-cancel"]::before { 
+		content: "\f102"; 
+	} 
+	[class*="--icon-arrow"]::before { 
+		content: "\f103"; 
+	} 

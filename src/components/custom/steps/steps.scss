@@ -1,0 +1,85 @@
+.steps {
+	@include adaptiveValue("padding-top", 150, 70);
+	// .steps__container
+	&__container {
+	}
+	// .steps__title
+	&__title {
+		&:not(:last-child) {
+			@include adaptiveValue("margin-bottom", 44, 28);
+		}
+	}
+	// .steps__body
+	&__body {
+		display: grid;
+		align-items: start;
+		@include adaptiveValue("gap", 16, 10, 0, $containerWidth, $mobile);
+		@media (width >= toEm($mobileSmall)) {
+			grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+		}
+	}
+	// .steps__item
+	&__item {
+	}
+}
+.item-steps {
+	gap: 70px;
+	display: grid;
+	overflow: hidden;
+	border-radius: 32px;
+	background-color: #f5f5f5;
+	transition: box-shadow 0.3s ease-in-out;
+	html:not([data-fls-touch]) & {
+		@media (any-hover: hover), (pointer: fine) {
+			&:hover {
+				box-shadow:
+					rgba(17, 17, 26, 0.05) 0px 1px 0px,
+					rgba(17, 17, 26, 0.1) 0px 0px 8px;
+			}
+		}
+	}
+	@media (width < toEm($mobileSmall)) {
+		@include adaptiveValue("gap", 70, 10, 0, $mobileSmall, 320);
+	}
+	// .item-steps__content
+	&__content {
+		gap: 10px;
+		z-index: 1;
+		display: grid;
+		padding-top: 32px;
+		position: relative;
+		@include adaptiveValue("padding-top", 32, 16);
+		@include adaptiveValue("padding-inline", 32, 16);
+	}
+	// .item-steps__number
+	&__number {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		color: #fff;
+		font-size: 27px;
+		font-weight: 600;
+
+		width: 46px;
+		height: 46px;
+		border-radius: 29px;
+
+		background-color: var(--primary-color);
+	}
+	// .item-steps__title
+	&__title {
+		font-weight: 600;
+		@include adaptiveValue("font-size", 32, 26);
+	}
+	// .item-steps__image
+	&__image {
+		height: 172px;
+		position: relative;
+		img {
+			bottom: 0;
+			width: 100%;
+			position: absolute;
+		}
+	}
+}
