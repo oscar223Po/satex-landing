@@ -1,5 +1,118 @@
 .footer {
+	color: #fff;
+	padding-block: 45px;
+	background-color: var(--main-color);
 	// .footer__container
 	&__container {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		@media (width < toEm($mobile)) {
+			gap: 16px;
+			align-items: start;
+			flex-direction: column;
+		}
+	}
+	// .footer__site
+	&__site {
+		gap: 12px;
+		display: flex;
+		align-items: start;
+		flex-direction: column;
+		span {
+			opacity: 0.8;
+			font-size: 14px;
+			font-weight: 500;
+			line-height: 1.2;
+		}
+	}
+	// .footer__logo
+	&__logo {
+		transition: opacity 0.3s ease;
+		html:not([data-fls-touch]) & {
+			@media (any-hover: hover), (pointer: fine) {
+				&:hover {
+					opacity: 0.8;
+				}
+			}
+		}
+	}
+	// .footer__list
+	&__list {
+		gap: 4px;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		@media (width < toEm($mobile)) {
+			column-gap: 28px;
+		}
+	}
+	// .footer__link
+	&__link {
+		display: flex;
+		font-weight: 500;
+		align-items: center;
+		position: relative;
+		padding: 13.5px 24px;
+
+		overflow: hidden;
+		border-radius: 50px;
+		transition:
+			transform 0.5s ease,
+			box-shadow 0.5s ease,
+			color 0.5s ease 0.12s;
+
+		@media (width >= toEm($mobile)) {
+			&::before {
+				content: "";
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				z-index: -1;
+				transform: scaleX(0);
+				transform-origin: right;
+				background-color: #fff;
+				transition: transform 0.5s cubic-bezier(0.86, 0, 0.07, 1);
+			}
+			html:not([data-fls-touch]) & {
+				@media (any-hover: hover), (pointer: fine) {
+					&:hover {
+						color: var(--main-color);
+						transform: translateY(-3px);
+						box-shadow: 0 10px 20px rgba(201, 219, 227, 0.3);
+						&::before {
+							transform: scaleX(1);
+							transform-origin: left;
+						}
+					}
+				}
+			}
+		}
+
+		@media (width < toEm($mobile)) {
+			padding: 13.5px 0;
+		}
+	}
+	// .footer__aside
+	&__aside {
+		gap: 12px;
+		display: flex;
+		flex-direction: column;
+	}
+	// .footer__aside-link
+	&__aside-link {
+		opacity: 0.8;
+		font-size: 14px;
+		font-weight: 500;
+		transition: opacity 0.3s ease;
+		html:not([data-fls-touch]) & {
+			@media (any-hover: hover), (pointer: fine) {
+				&:hover {
+					opacity: 1;
+				}
+			}
+		}
 	}
 }

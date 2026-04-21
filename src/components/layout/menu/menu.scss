@@ -10,7 +10,7 @@
 	&__list {
 		gap: 4px;
 		display: flex;
-		white-space: nowrap;
+		flex-wrap: wrap;
 		align-items: center;
 		@media (width < toEm($mobile)) {
 			gap: 6px;
