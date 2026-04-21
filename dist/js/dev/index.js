@@ -88,6 +88,10 @@ function headerScroll() {
 	let timer;
 	document.addEventListener("scroll", function(e) {
 		const scrollTop = window.scrollY;
+		if (document.documentElement.hasAttribute("data-fls-menu-open")) {
+			scrollDirection = scrollTop <= 0 ? 0 : scrollTop;
+			return;
+		}
 		clearTimeout(timer);
 		if (scrollTop >= startPoint) {
 			!header.classList.contains("--header-scroll") && header.classList.add("--header-scroll");
