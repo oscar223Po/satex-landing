@@ -2,25 +2,27 @@
 	overflow: hidden;
 	position: relative;
 	background: linear-gradient(164deg, #24a1ff 0%, #a2d6ff 97.65%);
-	&::before {
-		bottom: 0;
-		content: "";
-		left: -355px;
-		width: 1217.12px;
-		height: 950.32px;
-		rotate: -78.92deg;
-		position: absolute;
-		background: url("@img/hero/decore/decore-left.svg") 0 0 / contain no-repeat;
-	}
-	&::after {
-		bottom: 0;
-		content: "";
-		right: -355px;
-		width: 1217.12px;
-		height: 950.32px;
-		rotate: -101.08deg;
-		position: absolute;
-		background: url("@img/hero/decore/decore-right.svg") 0 0 / contain no-repeat;
+	@media (width >= toEm($mobile)) {
+		&::before,
+		&::after {
+			bottom: 0;
+			z-index: 2;
+			content: "";
+			width: 1217.12px;
+			height: 950.32px;
+			position: absolute;
+			filter: blur(156.70001220703125px);
+		}
+		&::before {
+			rotate: -78.92deg;
+			background: url("@img/hero/decore/decore-left.svg") 0 0 / contain no-repeat;
+			@include adaptiveValue("left", -355, -917, 2, $containerWidth, 767);
+		}
+		&::after {
+			rotate: -101.08deg;
+			background: url("@img/hero/decore/decore-right.svg") 0 0 / contain no-repeat;
+			@include adaptiveValue("right", -355, -917, 2, $containerWidth, 767);
+		}
 	}
 	// .hero__container
 	&__container {
@@ -38,8 +40,10 @@
 			border-radius: 100%;
 			background-color: #fff;
 			transform: translate(50%, -50%);
+			filter: blur(189.45179748535156px);
 		}
 		&::before {
+			z-index: 1;
 			content: "";
 			top: -129px;
 			content: "";
@@ -49,6 +53,7 @@
 			rotate: 18.69deg;
 			height: 1126.46px;
 			position: absolute;
+			filter: blur(300px);
 			border-radius: 100%;
 			background: linear-gradient(307deg, #005fbf 38.45%, rgba(0, 95, 191, 0.51) 100%);
 		}
@@ -64,18 +69,23 @@
 			rotate: -97.04deg;
 			height: 1947.59px;
 			position: absolute;
+			filter: blur(51.9437255859375px);
 			background: url("@img/hero/decore/decore.svg") 0 0 / contain no-repeat;
 		}
-		&::before {
-			top: -292px;
-			content: "";
-			opacity: 0.58;
-			right: -487px;
-			width: 859.62px;
-			height: 896.61px;
-			rotate: -78.92deg;
-			position: absolute;
-			background: url("@img/hero/decore/decore.svg") 0 0 / contain no-repeat;
+		@media (width >= toEm($mobile)) {
+			&::after {
+				z-index: 1;
+				top: -222px;
+				content: "";
+				opacity: 0.58;
+				right: -487px;
+				width: 859.62px;
+				rotate: -78.92deg;
+				height: 896.61px;
+				position: absolute;
+				filter: blur(106.7740020751953px);
+				background: url("@img/hero/decore/decore.svg") 0 0 / contain no-repeat;
+			}
 		}
 	}
 	// .hero__heading
@@ -129,12 +139,20 @@
 		background-clip: text;
 		-webkit-background-clip: text;
 		-webkit-text-fill-color: transparent;
-		@include adaptiveValue("font-size", 100, 48);
+		@include adaptiveValue("font-size", 100, 42);
+		@media (width >= toEm($mobile)) {
+			br {
+				&:first-child {
+					display: none;
+				}
+			}
+		}
 	}
 	// .hero__text
 	&__text {
 		opacity: 0.6;
 		color: #fff;
+		line-height: 1.2;
 		@include adaptiveValue("font-size", 18, 16);
 		> * {
 			margin-bottom: 24px;
@@ -147,6 +165,36 @@
 		text-align: center;
 		vertical-align: top;
 		display: inline-block;
+	}
+	// .hero__circle
+	&__circle {
+		top: 50%;
+		left: 50%;
+		margin: 0 auto;
+		position: absolute;
+		aspect-ratio: 1 / 1;
+		border-radius: 100%;
+		translate: -50% -50%;
+		border: 1px solid rgba(255, 255, 255, 0.15);
+		@include adaptiveValue("width", 1205, 746);
+		&::before,
+		&::after {
+			content: "";
+			top: 50%;
+			left: 50%;
+			margin: 0 auto;
+			position: absolute;
+			aspect-ratio: 1 / 1;
+			border-radius: 100%;
+			translate: -50% -50%;
+			border: 1px solid rgba(255, 255, 255, 0.15);
+		}
+		&::before {
+			@include adaptiveValue("width", 1402, 897);
+		}
+		&::after {
+			@include adaptiveValue("width", 1579, 1014);
+		}
 	}
 	// .hero__image-left
 	&__image-left {
@@ -182,5 +230,21 @@
 		@include adaptiveValue("width", 361, 193);
 		@include adaptiveValue("right", -324, -92);
 		@include adaptiveValue("border-radius", 20, 10);
+	}
+	// .hero__panel
+	&__panel {
+		bottom: 0;
+		left: -50%;
+		z-index: 10;
+		width: 200%;
+		height: 510px;
+		translate: 0 50%;
+		filter: blur(85px);
+		position: absolute;
+		background-color: #fff;
+		@media (width < toEm($mobile)) {
+			height: 300px;
+			filter: blur(65px);
+		}
 	}
 }
