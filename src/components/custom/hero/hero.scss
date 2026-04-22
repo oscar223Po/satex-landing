@@ -1,0 +1,112 @@
+.hero {
+	overflow: hidden;
+	background-color: var(--primary-color);
+	@include adaptiveValue("padding-top", 168, 105);
+	// .hero__container
+	&__container {
+		// Центрує inline-block .hero__images у рядку (margin: auto на inline-block не діє)
+		text-align: center;
+	}
+	// .hero__heading
+	&__heading {
+		&:not(:last-child) {
+			@include adaptiveValue("margin-bottom", 68, 35);
+		}
+		> * {
+			margin-bottom: 12px;
+		}
+		> *:last-child {
+			margin-bottom: 0;
+		}
+	}
+	// .hero__tags
+	&__tags {
+		gap: 8px;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: center;
+		span {
+			color: #fff;
+			font-weight: 500;
+			line-height: 1.3;
+			padding: 10px 14px;
+			border-radius: 32px;
+			background: rgba(255, 255, 255, 0.2);
+			@include adaptiveValue("font-size", 15, 12);
+		}
+		@media (width < toEm($mobile)) {
+			span {
+				padding: 6px 12px;
+			}
+		}
+	}
+	// .hero__title
+	&__title {
+		font-family: var(--font-family-secondary);
+		font-weight: 500;
+		line-height: 1.1;
+		background: linear-gradient(
+			180deg,
+			#fff 3.51%,
+			rgba(255, 255, 255, 0.8) 46.87%,
+			#fff 58.11%,
+			rgba(255, 255, 255, 0.8) 100%
+		);
+		background-clip: text;
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		@include adaptiveValue("font-size", 100, 48);
+	}
+	// .hero__text
+	&__text {
+		opacity: 0.6;
+		color: #fff;
+		@include adaptiveValue("font-size", 18, 16);
+		> * {
+			margin-bottom: 24px;
+		}
+	}
+	// .hero__images
+	&__images {
+		position: relative;
+		text-align: center;
+		vertical-align: top;
+		display: inline-block;
+	}
+	// .hero__image-left
+	&__image-left {
+		position: absolute;
+		box-shadow:
+			0 11px 24px 0 rgba(0, 0, 0, 0.07),
+			0 44px 44px 0 rgba(0, 0, 0, 0.06),
+			0 98px 59px 0 rgba(0, 0, 0, 0.03),
+			0 175px 70px 0 rgba(0, 0, 0, 0.01),
+			0 274px 77px 0 rgba(0, 0, 0, 0);
+		@include adaptiveValue("top", 105, 78);
+		@include adaptiveValue("left", -416, -20);
+		@include adaptiveValue("min-width", 611, 281);
+		@include adaptiveValue("border-radius", 20, 10);
+	}
+	// .hero__image-center
+	&__image-center {
+		z-index: 1;
+		position: relative;
+		@include adaptiveValue("width", 443, 266);
+	}
+	// .hero__image-right
+	&__image-right {
+		z-index: 2;
+		position: absolute;
+		box-shadow:
+			0 11px 24px 0 rgba(0, 0, 0, 0.07),
+			0 44px 44px 0 rgba(0, 0, 0, 0.06),
+			0 98px 59px 0 rgba(0, 0, 0, 0.03),
+			0 175px 70px 0 rgba(0, 0, 0, 0.01),
+			0 274px 77px 0 rgba(0, 0, 0, 0);
+		@include adaptiveValue("top", 129, 161);
+		@include adaptiveValue("width", 361, 193);
+		@include adaptiveValue("right", -324, -92);
+		@include adaptiveValue("border-radius", 20, 10);
+	}
+}

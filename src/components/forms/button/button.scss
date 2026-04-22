@@ -7,6 +7,9 @@
 	border-radius: 50px;
 	display: inline-flex;
 	justify-content: center;
+	transition:
+		color 0.5s,
+		background-color 0.5s;
 	background-color: var(--primary-color);
 
 	color: #fff;
@@ -17,6 +20,25 @@
 			&:hover {
 				background-color: var(--main-color);
 			}
+		}
+	}
+	&--lg {
+		height: 74px;
+		padding: 0 60px;
+		font-weight: 600;
+		background-color: #fff;
+		color: var(--primary-color);
+		@include adaptiveValue("font-size", 20, 16);
+		html:not([data-fls-touch]) & {
+			@media (any-hover: hover), (pointer: fine) {
+				&:hover {
+					color: #fff;
+				}
+			}
+		}
+		@media (width < toEm($mobile)) {
+			height: 57px;
+			padding: 0 40px;
 		}
 	}
 	&--fw {
