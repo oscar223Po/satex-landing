@@ -1,14 +1,87 @@
 .hero {
 	overflow: hidden;
-	background-color: var(--primary-color);
-	@include adaptiveValue("padding-top", 168, 105);
+	position: relative;
+	background: linear-gradient(164deg, #24a1ff 0%, #a2d6ff 97.65%);
+	&::before {
+		bottom: 0;
+		content: "";
+		left: -355px;
+		width: 1217.12px;
+		height: 950.32px;
+		rotate: -78.92deg;
+		position: absolute;
+		background: url("@img/hero/decore/decore-left.svg") 0 0 / contain no-repeat;
+	}
+	&::after {
+		bottom: 0;
+		content: "";
+		right: -355px;
+		width: 1217.12px;
+		height: 950.32px;
+		rotate: -101.08deg;
+		position: absolute;
+		background: url("@img/hero/decore/decore-right.svg") 0 0 / contain no-repeat;
+	}
 	// .hero__container
 	&__container {
-		// Центрує inline-block .hero__images у рядку (margin: auto на inline-block не діє)
 		text-align: center;
+		position: relative;
+		@include adaptiveValue("padding-top", 168, 105);
+		&::after {
+			top: 0;
+			right: 0;
+			content: "";
+			opacity: 0.54;
+			height: 721.36px;
+			width: 1318.97px;
+			position: absolute;
+			border-radius: 100%;
+			background-color: #fff;
+			transform: translate(50%, -50%);
+		}
+		&::before {
+			content: "";
+			top: -129px;
+			content: "";
+			right: -371px;
+			opacity: 0.88;
+			width: 1973.42px;
+			rotate: 18.69deg;
+			height: 1126.46px;
+			position: absolute;
+			border-radius: 100%;
+			background: linear-gradient(307deg, #005fbf 38.45%, rgba(0, 95, 191, 0.51) 100%);
+		}
+	}
+	// .hero__decore
+	&__decore {
+		&::before {
+			top: -577px;
+			content: "";
+			opacity: 0.58;
+			right: -534px;
+			width: 1867.24px;
+			rotate: -97.04deg;
+			height: 1947.59px;
+			position: absolute;
+			background: url("@img/hero/decore/decore.svg") 0 0 / contain no-repeat;
+		}
+		&::before {
+			top: -292px;
+			content: "";
+			opacity: 0.58;
+			right: -487px;
+			width: 859.62px;
+			height: 896.61px;
+			rotate: -78.92deg;
+			position: absolute;
+			background: url("@img/hero/decore/decore.svg") 0 0 / contain no-repeat;
+		}
 	}
 	// .hero__heading
 	&__heading {
+		z-index: 10;
+		position: relative;
 		&:not(:last-child) {
 			@include adaptiveValue("margin-bottom", 68, 35);
 		}
@@ -69,6 +142,7 @@
 	}
 	// .hero__images
 	&__images {
+		z-index: 5;
 		position: relative;
 		text-align: center;
 		vertical-align: top;
