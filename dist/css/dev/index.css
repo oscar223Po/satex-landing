@@ -71,7 +71,8 @@ h6 {
 address {
 	font-style: normal;
 }
-@font-face {font-family: Fontspring;font-display: swap;src: url("../assets/fonts/Fontspring-DEMO-moranga-regular.woff2") format("woff2");font-weight: 400;font-style: normal;}
+@font-face {font-family: Moranga;font-display: swap;src: url("../assets/fonts/Moranga-Regular.woff2") format("woff2");font-weight: 400;font-style: normal;}
+@font-face {font-family: Moranga;font-display: swap;src: url("../assets/fonts/Moranga-Medium.woff2") format("woff2");font-weight: 500;font-style: normal;}
 @font-face { 
 	font-family: "iconfont"; 
 	font-display: swap;
@@ -95,7 +96,7 @@ address {
 :root {
   /* Шрифт за замовчуванням */
   --font-family: "TikTok Sans", sans-serif;
-  --font-family-secondary: "Fontspring", sans-serif;
+  --font-family-secondary: "Moranga", sans-serif;
   /* Розмір шрифту за замовченням (де 16 - розмір шрифту за замовчуванням з макету)  */
   --font-size: 1.125rem;
   /* Основні кольори */
@@ -135,6 +136,7 @@ body {
 }
 [class*="--title"] {
   line-height: 1.1;
+  font-weight: 500;
   text-align: center;
   font-family: var(--font-family-secondary);
 }
