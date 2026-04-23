@@ -131,7 +131,7 @@ body {
 	@include adaptiveValue("font-size", 18, 16);
 }
 
-[class*="block"] {
+[class*="--block"] {
 	overflow: hidden;
 	background-color: var(--gray-color);
 	transition: box-shadow 0.3s ease-in-out;

@@ -1,0 +1,103 @@
+.force {
+	@include adaptiveValue("padding-block", 74, 40);
+	// .force__container
+	&__container {
+		text-align: center;
+	}
+	// .force__headblock
+	&__headblock {
+		&:not(:last-child) {
+			@include adaptiveValue("margin-bottom", 77, 38);
+		}
+	}
+	// .force__body
+	&__body {
+		z-index: 5;
+		position: relative;
+		text-align: center;
+		vertical-align: top;
+		display: inline-block;
+	}
+	// .force__image
+	&__image {
+		// Common
+		&--01,
+		&--03,
+		&--02,
+		&--04 {
+			position: absolute;
+			border-radius: 25px;
+		}
+		// Shadow
+		&--03,
+		&--02,
+		&--04 {
+			box-shadow:
+				0 11px 24px 0 rgba(0, 0, 0, 0.07),
+				0 44px 44px 0 rgba(0, 0, 0, 0.06),
+				0 98px 59px 0 rgba(0, 0, 0, 0.03),
+				0 175px 70px 0 rgba(0, 0, 0, 0.01),
+				0 274px 77px 0 rgba(0, 0, 0, 0);
+		}
+		&--01 {
+			rotate: -19.71deg;
+			@include adaptiveValue("top", 188, 109);
+			@include adaptiveValue("width", 236, 126);
+			@include adaptiveValue("left", -170, -78);
+			img {
+				&:first-child {
+					border-radius: 25px;
+					box-shadow:
+						0 11px 24px 0 rgba(0, 0, 0, 0.07),
+						0 44px 44px 0 rgba(0, 0, 0, 0.06),
+						0 98px 59px 0 rgba(0, 0, 0, 0.03),
+						0 175px 70px 0 rgba(0, 0, 0, 0.01),
+						0 274px 77px 0 rgba(0, 0, 0, 0);
+				}
+				&:last-child {
+					top: 0;
+					left: 0;
+					width: 100%;
+					height: 100%;
+					translate: 0 -50%;
+					object-fit: cover;
+					position: absolute;
+				}
+			}
+		}
+		&--03 {
+			rotate: -23.63deg;
+			@include adaptiveValue("width", 401, 214);
+			@include adaptiveValue("bottom", 247, 125);
+			@include adaptiveValue("left", -270, -131);
+		}
+		&--center {
+			z-index: 1;
+			position: relative;
+			@include adaptiveValue("width", 481, 257);
+		}
+		&--02 {
+			rotate: 9.71deg;
+			@include adaptiveValue("top", 158, 93);
+			@include adaptiveValue("width", 401, 214);
+			@include adaptiveValue("right", -282, -160);
+		}
+		&--04 {
+			rotate: 24.1deg;
+			@include adaptiveValue("width", 409, 218);
+			@include adaptiveValue("bottom", 165, 47);
+			@include adaptiveValue("right", -322, -184);
+		}
+	}
+}
+.headblock {
+	// .headblock__title
+	&__title {
+	}
+	// .headblock__description
+	&__description {
+	}
+	// .headblock__button
+	&__button {
+	}
+}

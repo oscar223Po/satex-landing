@@ -7,4 +7,10 @@
 	> *:last-child {
 		margin-bottom: 0;
 	}
+	// .headblock__description
+	&__description {
+		&:not(:last-child) {
+			margin-bottom: 24px;
+		}
+	}
 }
