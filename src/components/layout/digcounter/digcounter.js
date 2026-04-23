@@ -1,5 +1,5 @@
 // Підключення функціоналу "Чертоги Фрілансера"
-import { FLS, getDigFormat } from "@js/common/functions.js";
+import { FLS, getDigFormat, getDigFromString } from "@js/common/functions.js";
 
 // Модуль анімація цифрового лічильника
 export function digitsCounter() {
@@ -25,14 +25,23 @@ export function digitsCounter() {
 	function digitsCountersAnimate(digitsCounter) {
 		let startTimestamp = null;
 		const duration = parseFloat(digitsCounter.dataset.flsDigcounterSpeed) ? parseFloat(digitsCounter.dataset.flsDigcounterSpeed) : 1000;
-		const startValue = parseFloat(digitsCounter.dataset.flsDigcounter);
-		const format = digitsCounter.dataset.flsDigcounterFormat ? digitsCounter.dataset.flsDigcounterFormat : ' ';
+		const raw = String(digitsCounter.dataset.flsDigcounter ?? "").trim();
+		const startValue = getDigFromString(raw);
+		const formatFromAttr = digitsCounter.dataset.flsDigcounterFormat;
+		const useFormat =
+			(formatFromAttr !== undefined && formatFromAttr !== "") || raw.includes(",");
+		const format =
+			formatFromAttr !== undefined && formatFromAttr !== ""
+				? formatFromAttr
+				: raw.includes(",")
+					? ","
+					: " ";
 		const startPosition = 0;
 		const step = (timestamp) => {
 			if (!startTimestamp) startTimestamp = timestamp;
 			const progress = Math.min((timestamp - startTimestamp) / duration, 1);
 			const value = Math.floor(progress * (startPosition + startValue));
-			digitsCounter.innerHTML = typeof digitsCounter.dataset.flsDigcounterFormat !== 'undefined' ? getDigFormat(value, format) : value;
+			digitsCounter.innerHTML = useFormat ? getDigFormat(value, format) : value;
 			if (progress < 1) {
 				window.requestAnimationFrame(step);
 			} else {

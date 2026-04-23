@@ -135,7 +135,7 @@ body {
 	overflow: hidden;
 	background-color: var(--gray-color);
 	transition: box-shadow 0.3s ease-in-out;
-	@include adaptiveValue("border-radius", 32, 22);
+	@include adaptiveValue("border-radius", 32, 20);
 	html:not([data-fls-touch]) & {
 		@media (any-hover: hover), (pointer: fine) {
 			&:hover {

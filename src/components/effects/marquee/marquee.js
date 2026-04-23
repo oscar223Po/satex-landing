@@ -3,6 +3,9 @@ import { FLS } from "@js/common/functions.js";
 
 import "./marquee.scss";
 
+/** Same breakpoint as styles/settings.scss $tablet with @media (width < toEm($tablet)). */
+const MARQUEE_TABLET_MAX_PX = 992;
+
 const marquee = () => {
 	const $marqueeArray = document.querySelectorAll("[data-fls-marquee]");
 	const ATTR_NAMES = {
@@ -84,7 +87,7 @@ const marquee = () => {
 		const isVertical = direction === "bottom" || direction === "top";
 		const animName = `marqueeAnimation-${Math.floor(Math.random() * 10000000)}`;
 		let spaceBetweenItem = parseFloat(window.getComputedStyle($items[0])?.getPropertyValue("margin-right"));
-		let spaceBetween = spaceBetweenItem ? spaceBetweenItem : !isNaN(dataMarqueeSpace) ? dataMarqueeSpace : 30;
+		let spaceBetween = 0;
 		let startPosition = parseFloat($wrapper.getAttribute("data-fls-marquee-start")) || 0;
 
 		let sumSize = 0;
@@ -232,12 +235,17 @@ const marquee = () => {
 				$items.forEach(($item) => $item.style.removeProperty("margin-right"));
 
 				spaceBetweenItem = parseFloat(window.getComputedStyle($items[0]).getPropertyValue("margin-right"));
-				spaceBetween = spaceBetweenItem ? spaceBetweenItem : !isNaN(dataMarqueeSpace) ? dataMarqueeSpace : 30;
+				const nextBase = spaceBetweenItem ? spaceBetweenItem : !isNaN(dataMarqueeSpace) ? dataMarqueeSpace : 30;
+				spaceBetween = window.innerWidth < MARQUEE_TABLET_MAX_PX ? 10 : nextBase;
 			}
 		};
 
 		const init = () => {
 			correctSpaceBetween();
+			if (!spaceBetweenItem) {
+				const base = !isNaN(dataMarqueeSpace) ? dataMarqueeSpace : 20;
+				spaceBetween = window.innerWidth < MARQUEE_TABLET_MAX_PX ? 10 : base;
+			}
 			addDublicateElements();
 			animation();
 			initEvents();
