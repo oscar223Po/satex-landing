@@ -32,7 +32,6 @@ const isWpBlocks = process.argv.includes('--blocks')
 import { ignoredDirs, ignoredFiles } from './template_modules/ignored.js'
 
 // import Inspect from 'vite-plugin-inspect'
-import { getDev } from './template_modules/main.js'
 import { renderUnicodeCompact } from 'uqr';
 
 const isAssets = templateConfig.server.isassets || isWp ? `assets/` : ``
@@ -189,7 +188,6 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
 						}
 					}
 				},
-				getDev(),
 				{
 					name: 'message-build',
 					apply: 'build',
