@@ -7,8 +7,8 @@
 // Підключаємо слайдер Swiper з node_modules
 // При необхідності підключаємо додаткові модулі слайдера, вказуючи їх у {} через кому
 // Приклад: { Navigation, Autoplay }
-import Swiper from 'swiper';
-import { Navigation } from 'swiper/modules';
+import Swiper from 'swiper'
+import { EffectFade, Navigation } from 'swiper/modules'
 /*
 Основні модулі слайдера:
 Navigation, Pagination, Autoplay, 
@@ -18,7 +18,9 @@ EffectFade, Lazy, Manipulation
 
 // Стилі Swiper
 // Підключення базових стилів
-import "./slider.scss";
+import "./slider.scss"
+// Fade: без цього неактивні слайди з opacity: 0 ловлять hover/клік поверх активного (pointer-events)
+import "swiper/css/effect-fade"
 // Повний набір стилів з node_modules
 // import 'swiper/css/bundle';
 
@@ -31,23 +33,23 @@ function initSliders() {
 		new Swiper('[data-fls-slider]', { // <- Вказуємо склас потрібного слайдера
 			// Підключаємо модулі слайдера
 			// для конкретного випадку
-			modules: [Navigation],
+			modules: [Navigation, EffectFade],
 			observer: true,
 			observeParents: true,
 			slidesPerView: 1,
 			spaceBetween: 0,
-			//autoHeight: true,
+			autoHeight: true,
 			speed: 800,
-
-			//touchRatio: 0,
-			//simulateTouch: false,
-			//loop: true,
+			loop: true,
+			// Лише кнопки навігації — без свайпу / перетягування мишею
+			allowTouchMove: false,
+			simulateTouch: false,
 			//preloadImages: false,
 			//lazy: true,
 
-			/*
 			// Ефекти
 			effect: 'fade',
+			/*
 			autoplay: {
 				delay: 3000,
 				disableOnInteraction: false,
@@ -72,8 +74,8 @@ function initSliders() {
 
 			// Кнопки "вліво/вправо"
 			navigation: {
-				prevEl: '.swiper-button-prev',
-				nextEl: '.swiper-button-next',
+				prevEl: '.controls-case__arrow--prev',
+				nextEl: '.controls-case__arrow--next',
 			},
 			/*
 			// Брейкпоінти

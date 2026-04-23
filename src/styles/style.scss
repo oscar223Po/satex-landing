@@ -128,7 +128,7 @@ body {
 
 [class*="--description"] {
 	color: #8a8a8a;
-	line-height: 1.2;
+	line-height: 1.25;
 	@include adaptiveValue("font-size", 18, 16);
 }
 
