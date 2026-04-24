@@ -5,12 +5,34 @@
 	}
 	// .safety__title
 	&__title {
+		/* Animations */
+		opacity: 0;
+		transition:
+			opacity 0.8s ease-in-out,
+			transform 0.8s ease-in-out;
+		transform: translateY(25px);
+		&.--watcher-view {
+			opacity: 1;
+			transform: translateY(0);
+		}
+		/* ------------ */
 		&:not(:last-child) {
 			@include adaptiveValue("margin-bottom", 44, 28);
 		}
 	}
 	// .safety__body
 	&__body {
+		/* Animations */
+		opacity: 0;
+		transition:
+			opacity 1s ease-in-out 0.3s,
+			transform 1s ease-in-out 0.3s;
+		transform: translateY(25px);
+		&.--watcher-view {
+			opacity: 1;
+			transform: translateY(0);
+		}
+		/* ------------ */
 		display: grid;
 		@include adaptiveValue("gap", 16, 10, 0, $containerWidth, $mobile);
 		@media (width >= toEm($tablet)) {

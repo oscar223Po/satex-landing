@@ -6,6 +6,17 @@
 	}
 	// .force__headblock
 	&__headblock {
+		/* Animations */
+		opacity: 0;
+		transition:
+			opacity 0.8s ease-in-out,
+			transform 0.8s ease-in-out;
+		transform: translateY(25px);
+		.--watcher-view & {
+			opacity: 1;
+			transform: translateY(0);
+		}
+		/* ------------ */
 		&:not(:last-child) {
 			@include adaptiveValue("margin-bottom", 77, 38);
 		}
@@ -40,6 +51,17 @@
 				0 274px 77px 0 rgba(0, 0, 0, 0);
 		}
 		&--01 {
+			/* Animations */
+			opacity: 0;
+			translate: -25px -25px;
+			transition:
+				opacity 1s ease-in-out 1.7s,
+				translate 1s ease-in-out 1.7s;
+			.--watcher-view & {
+				opacity: 1;
+				translate: 0 0;
+			}
+			/* ------------ */
 			rotate: -19.71deg;
 			@include adaptiveValue("top", 188, 109);
 			@include adaptiveValue("width", 236, 126);
@@ -66,23 +88,67 @@
 			}
 		}
 		&--03 {
+			/* Animations */
+			opacity: 0;
+			translate: -25px 25px;
+			transition:
+				opacity 1s ease-in-out 1.7s,
+				translate 1s ease-in-out 1.7s;
+			.--watcher-view & {
+				opacity: 1;
+				translate: 0 0;
+			}
+			/* ------------ */
 			rotate: -23.63deg;
 			@include adaptiveValue("width", 401, 214);
 			@include adaptiveValue("bottom", 247, 125);
 			@include adaptiveValue("left", -270, -131);
 		}
 		&--center {
+			/* Animations */
+			opacity: 0;
+			scale: 0.8;
+			transition:
+				scale 1s ease-in-out 0.8s,
+				opacity 1s ease-in-out 0.8s;
+			.--watcher-view & {
+				scale: 1;
+				opacity: 1;
+			}
+			/* ------------ */
 			z-index: 1;
 			position: relative;
 			@include adaptiveValue("width", 481, 257);
 		}
 		&--02 {
+			/* Animations */
+			opacity: 0;
+			translate: 25px -25px;
+			transition:
+				opacity 1s ease-in-out 1.7s,
+				translate 1s ease-in-out 1.7s;
+			.--watcher-view & {
+				opacity: 1;
+				translate: 0 0;
+			}
+			/* ------------ */
 			rotate: 9.71deg;
 			@include adaptiveValue("top", 158, 93);
 			@include adaptiveValue("width", 401, 214);
 			@include adaptiveValue("right", -282, -160);
 		}
 		&--04 {
+			/* Animations */
+			opacity: 0;
+			translate: 25px 25px;
+			transition:
+				opacity 1s ease-in-out 1.7s,
+				translate 1s ease-in-out 1.7s;
+			.--watcher-view & {
+				opacity: 1;
+				translate: 0 0;
+			}
+			/* ------------ */
 			rotate: 24.1deg;
 			@include adaptiveValue("width", 409, 218);
 			@include adaptiveValue("bottom", 165, 47);

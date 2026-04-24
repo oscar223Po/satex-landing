@@ -4,12 +4,34 @@
 	}
 	// .case__headblock
 	&__headblock {
+		/* Animations */
+		opacity: 0;
+		transition:
+			opacity 0.8s ease-in-out,
+			transform 0.8s ease-in-out;
+		transform: translateY(25px);
+		&.--watcher-view {
+			opacity: 1;
+			transform: translateY(0);
+		}
+		/* ------------ */
 		&:not(:last-child) {
 			@include adaptiveValue("margin-bottom", 64, 24);
 		}
 	}
 	// .case__slider
 	&__slider {
+		/* Animations */
+		opacity: 0;
+		transition:
+			opacity 1s ease-in-out 0.3s,
+			transform 1s ease-in-out 0.3s;
+		transform: translateY(30px);
+		&.--watcher-view {
+			opacity: 1;
+			transform: translateY(0);
+		}
+		/* ------------ */
 		@include adaptiveValue("border-radius", 32, 20);
 	}
 	// .case__wrapper
