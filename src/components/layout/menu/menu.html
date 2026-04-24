@@ -2,18 +2,18 @@
 	<nav class="menu__body">
 		<ul class="menu__list">
 			<each loop='item in [
-					{"href": "#","ancor": "How it works"},
-					{"href": "#","ancor": "IV Drips"},
-					{"href": "#","ancor": "Reviews"}
+					{"href": "#","ancor": "How it works","scrollto": ".steps"},
+					{"href": "#","ancor": "IV Drips","scrollto": ".case"},
+					{"href": "#","ancor": "Reviews","scrollto": ".review"}
 				]'>
 				<if condition="'[[active]]' === '[[item.ancor]]'">
 					<li class="menu__item">
-						<a href="[[item.href]]" class="menu__link menu__link--active">[[item.ancor]]</a>
+						<a href="[[item.href]]" data-fls-scrollto="[[item.scrollto]]" class="menu__link menu__link--active">[[item.ancor]]</a>
 					</li>
 				</if>
 				<else>
 					<li class="menu__item">
-						<a href="[[item.href]]" class="menu__link">[[item.ancor]]</a>
+						<a href="[[item.href]]" data-fls-scrollto="[[item.scrollto]]" class="menu__link">[[item.ancor]]</a>
 					</li>
 				</else>
 			</each>

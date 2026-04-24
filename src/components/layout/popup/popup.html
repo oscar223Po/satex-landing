@@ -1,9 +1,10 @@
 <link rel="stylesheet" href="@components/layout/popup/popup.scss">
-<div data-fls-popup="popup" aria-hidden="true" class="popup">
+
+<div data-fls-popup="access-popup" aria-hidden="true" class="popup">
 	<div data-fls-popup-wrapper class="popup__wrapper">
-		<div data-fls-popup-body class="popup__body">
-			<button data-fls-popup-close type="button" class="popup__close popup__close--icon-cancel"></button>
-			<div data-fls-popup-content class="popup__forhead forhead-popup">
+		<div data-fls-popup-body class="popup__body access-popup">
+			<button data-fls-popup-close type="button" class="access-popup__close access-popup__close--icon-cancel"></button>
+			<div data-fls-popup-content class="access-popup__forhead forhead-popup">
 				<div class="forhead-popup__logo"><img src="@img/logo-black.svg" alt="Logo"></div>
 				<div data-fls-headblock class="forhead-popup__headblock headblock">
 					<h2 class="headblock__title --title">Get access first</h2>
@@ -12,6 +13,60 @@
 							We’re getting ready to launch Satex. Leave your email and we’ll notify you as soon as it’s live.
 						</p>
 					</div>
+				</div>
+			</div>
+			<form action="#" class="access-popup__form form-popup">
+				<input data-fls-input autocomplete="off" type="email" name="form[]" data-error="Error" placeholder="Enter your email" class="form-popup__input input">
+				<button data-fls-button type="button" class="form-popup__button form-popup__button--icon-check"><span>Notify Me</span></button>
+			</form>
+		</div>
+	</div>
+</div>
+
+<div data-fls-popup="download-popup" aria-hidden="true" class="popup">
+	<div data-fls-popup-wrapper class="popup__wrapper">
+		<div data-fls-popup-body class="popup__body download-popup">
+			<button data-fls-popup-close type="button" class="download-popup__close download-popup__close--icon-cancel"></button>
+			<div data-fls-popup-content class="download-popup__forhead forhead-popup">
+				<div class="forhead-popup__logo"><img src="@img/logo-black.svg" alt="Logo"></div>
+				<div data-fls-headblock class="forhead-popup__headblock headblock">
+					<h2 class="headblock__title --title">Download the app to book at-home IV care in minutes.</h2>
+					<div class="headblock__description --description">
+						<p>
+							Available across New York and Florida
+						</p>
+					</div>
+				</div>
+			</div>
+			<div class="download-popup__code code-popup">
+				<div class="code-popup__block">
+					<div class="code-popup__label">
+						<svg viewBox="0 0 22 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path d="M18.3302 24.9569C16.9087 26.3289 15.3567 26.1123 13.8626 25.4623C12.2816 24.798 10.8311 24.7691 9.16298 25.4623C7.07425 26.3578 5.97186 26.0978 4.72442 24.9569C-2.35406 17.6922 -1.3097 6.62916 6.72613 6.22477C8.68432 6.32587 10.0478 7.29352 11.1937 7.38018C12.9053 7.03356 14.5444 6.03702 16.372 6.167C18.5623 6.34031 20.2159 7.20687 21.3038 8.76667C16.7782 11.4674 17.8515 17.4034 22 19.0643C21.1732 21.2307 20.0998 23.3826 18.3157 24.9713L18.3302 24.9569ZM11.0486 6.13811C10.8311 2.91741 13.4565 0.259967 16.4736 0C16.8942 3.7262 13.0794 6.49918 11.0486 6.13811Z" fill="url(#paint0_linear_2_944)" />
+							<defs>
+								<linearGradient id="paint0_linear_2_944" x1="11.2804" y1="0.747604" x2="11.2804" y2="23.4" gradientUnits="userSpaceOnUse">
+									<stop offset="0.293884" stop-color="#111111" />
+									<stop offset="0.825979" stop-color="#111111" stop-opacity="0.8" />
+								</linearGradient>
+							</defs>
+						</svg>
+						<span>App Store</span>
+					</div>
+					<img class="code-popup__image" src="@img/popup/qr.svg" alt="Qr-Code">
+					<a target="_blank" data-fls-button href="https://google.com" class="code-popup__button button">Open App Store</a>
+				</div>
+				<div class="code-popup__block">
+					<div class="code-popup__label">
+						<svg viewBox="0 0 24 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path d="M10.7446 12.2834L0.0981445 23.5834C0.0985445 23.5858 0.0993444 23.5877 0.0997444 23.5901C0.426244 24.817 1.54694 25.7206 2.87704 25.7206C3.40874 25.7206 3.90794 25.5768 4.33604 25.3245L4.37004 25.3045L16.354 18.3893L10.7446 12.2834Z" fill="#EA4335" />
+							<path d="M21.5156 10.3591L21.5054 10.3521L16.3316 7.35283L10.5027 12.5396L16.3519 18.388L21.4984 15.4185C22.4007 14.9314 23.0132 13.9802 23.0132 12.8833C23.0132 11.7943 22.4089 10.8478 21.5156 10.3591Z" fill="#FBBC04" />
+							<path d="M0.0976402 2.13643C0.0336402 2.37243 0 2.61963 0 2.87632V22.8439C0 23.1001 0.03324 23.3482 0.09804 23.5833L11.1109 12.5724L0.0976402 2.13643Z" fill="#4285F4" />
+							<path d="M10.8231 12.8602L16.3337 7.3512L4.36326 0.410998C3.92816 0.150398 3.42036 0 2.87696 0C1.54686 0 0.424656 0.9051 0.098056 2.1336C0.097656 2.1348 0.0976563 2.1356 0.0976563 2.1367L10.8231 12.8602Z" fill="#34A853" />
+						</svg>
+						<span>Google Play</span>
+					</div>
+					<img class="code-popup__image" src="@img/popup/qr.svg" alt="Qr-Code">
+					<a target="_blank" data-fls-button href="https://google.com" class="code-popup__button button">Open Google Play</a>
 				</div>
 			</div>
 		</div>

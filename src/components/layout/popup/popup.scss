@@ -1,90 +1,131 @@
+// -----------------------------------------------------------------
+// Backdrop (атрибут data-fls-popup-open вішється на <html> у popup.js)
+// -----------------------------------------------------------------
 body::after {
 	content: "";
+	position: fixed;
+	inset: 0;
+	z-index: 149;
+	opacity: 0;
+	pointer-events: none;
 	backdrop-filter: blur(10px);
 	background-color: rgba(17, 17, 17, 0.2);
-	position: fixed;
-	width: 100%;
-	height: 100%;
-	top: 0;
-	left: 0;
-	opacity: 0;
-	transition: opacity 0.8s ease 0s;
-	pointer-events: none;
-	z-index: 149;
+	transition: opacity 0.8s ease;
 }
-[data-fls-popup-open] body::after {
+
+html[data-fls-popup-open] body::after {
 	opacity: 1;
 }
-[data-fls-popup] {
+
+// -----------------------------------------------------------------
+// Оболонка: обидва попапи (клас .popup + data-fls-popup)
+// -----------------------------------------------------------------
+.popup[data-fls-popup] {
 	position: fixed;
-	top: 0;
-	left: 0;
-	bottom: 0;
-	right: 0;
+	inset: 0;
+	box-sizing: border-box;
 	padding: 30px 10px;
-	transition: visibility 0.8s ease 0s;
 	visibility: hidden;
 	pointer-events: none;
+	transition: visibility 0.8s ease;
+
 	&[data-fls-popup-active] {
 		z-index: 150;
 		visibility: visible;
 		overflow: auto;
+		overflow-x: hidden;
+		-webkit-overflow-scrolling: touch;
 		pointer-events: auto;
 	}
+}
+
+.popup[data-fls-popup][data-fls-popup-active] [data-fls-popup-body] {
+	visibility: visible;
+}
+
+// Доступ по email — як download (scale) від $mobile; нижче $mobile — sheet знизу (translate)
+// Селектор з .popup, інакше padding з .popup[data-fls-popup] перебиває лише [data-fls-popup="…"]
+.popup[data-fls-popup="access-popup"] {
+	&[data-fls-popup-active] [data-fls-popup-body] {
+		@media (width >= toEm($mobile)) {
+			transform: scale(1);
+		}
+		@media (width < toEm($mobile)) {
+			transform: translate(0, 0);
+		}
+	}
+
+	// Панель знизу, оверлей на весь екран
 	@media (width < toEm($mobile)) {
-		top: auto;
-		padding: 0;
+		padding: 32px 0 0 0;
+		padding-bottom: env(safe-area-inset-bottom, 0px);
+
+		[data-fls-popup-wrapper] {
+			justify-content: flex-end;
+			align-items: stretch;
+		}
+
+		[data-fls-popup-body] {
+			max-width: none;
+			border-radius: 32px 32px 0 0;
+		}
 	}
 }
-[data-fls-popup-active] [data-fls-popup-body] {
-	visibility: visible;
-	transform: scale(1);
+
+// Завантаження додатку — по центру з відступами на мобільному
+.popup[data-fls-popup="download-popup"] {
+	&[data-fls-popup-active] [data-fls-popup-body] {
+		transform: scale(1);
+	}
+
+	@media (width < toEm($mobile)) {
+		padding: 16px 10px;
+		padding-bottom: max(16px, env(safe-area-inset-bottom, 0px));
+	}
 }
+
 [data-fls-popup-wrapper] {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	justify-content: center;
+	width: 100%;
 	min-height: 100%;
 	flex: 1 1 auto;
-	width: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
 }
+
 [data-fls-popup-body] {
+	position: relative;
 	visibility: hidden;
-	transform: scale(0);
-	transition:
-		transform 0.3s ease 0s,
-		visibility 0.3s ease 0s;
-	background-color: var(--gray-color);
 	width: 100%;
-	padding: 32px;
 	max-width: 857px;
-	border-radius: 60px;
-	@media (width < toEm($mobile)) {
-		padding: 32px 24px;
-		border-radius: 50px 50px 0 0;
-	}
+	padding: 32px 24px;
+	background-color: var(--gray-color);
+	transition:
+		transform 0.3s ease,
+		visibility 0.3s ease;
+	@include adaptiveValue("border-radius", 60, 32);
 }
 
 [data-fls-popup-close] {
+	position: absolute;
 	top: 26px;
-	width: 40px;
 	right: 26px;
+	z-index: 1;
 	display: flex;
-	font-size: 13px;
+	align-items: center;
+	justify-content: center;
+	width: 40px;
+	aspect-ratio: 1 / 1;
 	padding-top: 1px;
 	padding-left: 1px;
 	border-radius: 50%;
-	position: absolute;
-	align-items: center;
-	aspect-ratio: 1 / 1;
-	justify-content: center;
+	font-size: 13px;
 	background-color: #fff;
 	transition:
 		color 0.5s ease,
 		background-color 0.5s ease;
+
 	html:not([data-fls-touch]) & {
 		@media (any-hover: hover), (pointer: fine) {
 			&:hover {
@@ -100,28 +141,206 @@ body::after {
 	aspect-ratio: 16 / 9;
 }
 
-.popup {
-	// .popup__forhead
+.access-popup {
+	padding-bottom: 374px;
+	@media (width >= toEm($mobile)) {
+		transform: scale(0);
+		background: var(--gray-color) url("@img/popup/bg.png") bottom center no-repeat;
+	}
+	@media (width < toEm($mobile)) {
+		transform: translate(0, 100%);
+		padding-bottom: 70px;
+	}
 	&__forhead {
+		.forhead-popup__headblock {
+			max-width: 418px;
+		}
 	}
 }
+.download-popup {
+	transform: scale(0);
+}
+
 .forhead-popup {
 	text-align: center;
-	// .forhead-popup__logo
+	&:not(:last-child) {
+		@include adaptiveValue("margin-bottom", 32, 20);
+	}
 	&__logo {
 		&:not(:last-child) {
 			margin-bottom: 50px;
 		}
 	}
-	// .forhead-popup__headblock
 	&__headblock {
 		margin: 0 auto;
-		max-width: 418px;
 		.headblock__title.--title {
-			@include adaptiveValue("font-size", 50, 38);
+			@include adaptiveValue("font-size", 50, 32);
 		}
 		.headblock__description.--description {
 			@include adaptiveValue("font-size", 16, 14);
+		}
+	}
+}
+.form-popup {
+	gap: 6px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	@media (width < toEm($mobileSmall)) {
+		gap: 16px;
+		flex-direction: column;
+	}
+	&__input {
+		max-width: 350px;
+		@media (width < toEm($mobile)) {
+			height: 53px;
+			font-size: 16px;
+			max-width: 100%;
+		}
+	}
+	&__button {
+		height: 63px;
+		color: #fff;
+		flex-shrink: 0;
+		padding: 0 50px;
+		font-weight: 600;
+		align-items: center;
+		border-radius: 50px;
+		display: inline-flex;
+		justify-content: center;
+		background-color: var(--primary-color);
+		transition:
+			color 0.5s,
+			background-color 0.5s;
+
+		html:not([data-fls-touch]) & {
+			@media (any-hover: hover), (pointer: fine) {
+				&:hover {
+					color: #fff;
+					background-color: var(--main-color);
+				}
+			}
+		}
+
+		&::before {
+			display: none;
+			font-size: 23px;
+			padding-bottom: 5px;
+		}
+
+		&.button-form-check {
+			padding: 0;
+			width: 63px;
+			border-radius: 50%;
+			pointer-events: none;
+			background-color: #08c579;
+
+			&::before {
+				display: block;
+			}
+
+			span {
+				display: none;
+			}
+		}
+
+		@media (width < toEm($mobile)) {
+			height: 53px;
+			font-size: 16px;
+			padding: 0 30px;
+
+			&.button-form-check {
+				width: 53px;
+			}
+		}
+
+		@media (width < toEm($mobileSmall)) {
+			width: 100%;
+
+			&.button-form-check {
+				width: 100%;
+				border-radius: 50px;
+			}
+		}
+	}
+}
+.code-popup {
+	gap: 12px;
+	display: grid;
+	@media (width >= toEm($mobile)) {
+		grid-template-columns: repeat(2, 1fr);
+	}
+	&__block {
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+		justify-content: center;
+		background-color: #fff;
+		@include adaptiveValue("border-radius", 50, 26);
+		@include adaptiveValue("gap", 32, 24, 2, $containerWidth, $mobile);
+		@include adaptiveValue("padding-block", 24, 18, 2, $containerWidth, $mobile);
+		@include adaptiveValue("padding-inline", 34, 20, 2, $containerWidth, $mobile);
+		&:first-child {
+			.code-popup__label {
+				svg {
+					translate: 0 -1.5px;
+					@include adaptiveValue("width", 22, 16);
+					@include adaptiveValue("height", 26, 18);
+				}
+			}
+		}
+		&:last-child {
+			.code-popup__label {
+				svg {
+					@include adaptiveValue("width", 24, 16);
+					@include adaptiveValue("height", 26, 18);
+				}
+			}
+		}
+		@media (width < toEm($mobile)) {
+			gap: 8px;
+			padding: 12px;
+			flex-direction: row;
+		}
+		@media (width < toEm($mobileSmall)) {
+			flex-direction: column;
+		}
+	}
+	&__label {
+		gap: 8px;
+		height: 54px;
+		display: flex;
+		padding: 0 32px;
+		border-radius: 64px;
+		align-items: center;
+		justify-content: center;
+		background-color: var(--gray-color);
+
+		span {
+			font-family: var(--font-family-secondary);
+			font-weight: 500;
+			background: linear-gradient(180deg, #111 29.39%, rgba(17, 17, 17, 0.8) 82.6%);
+			background-clip: text;
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			@include adaptiveValue("font-size", 26, 18);
+		}
+
+		@media (width < toEm($mobile)) {
+			width: 100%;
+			height: 45px;
+			padding: 0;
+		}
+	}
+	&__image {
+		@media (width < toEm($mobile)) {
+			display: none;
+		}
+	}
+	&__button {
+		@media (width < toEm($mobile)) {
+			width: 100%;
+			padding: 0;
 		}
 	}
 }
