@@ -4126,6 +4126,9 @@ function pageNavigation() {
 }
 document.querySelector("[data-fls-scrollto]") && window.addEventListener("load", pageNavigation);
 //#endregion
+//#region src/assets/img/logo.svg?url
+var logo_default = "" + new URL("../assets/img/logo.svg", import.meta.url).href;
+//#endregion
 //#region src/components/effects/preloader/preloader.js
 function preloader() {
 	const html = document.documentElement;
@@ -4139,12 +4142,13 @@ function preloader() {
 		finishPreloader(html);
 		return;
 	}
-	document.body.insertAdjacentHTML("beforeend", `
+	const markup = `
 		<div class="fls-preloader">
 			<div class="fls-preloader__body">
-				<img class="fls-preloader__logo" src="/assets/img/logo.svg" alt="" decoding="async">
+				<img class="fls-preloader__logo" src="${logo_default}" alt="Satex" width="96" height="26" decoding="async">
 			</div>
-		</div>`);
+		</div>`;
+	document.body.insertAdjacentHTML("beforeend", markup);
 	html.setAttribute("data-fls-preloader-loading", "");
 	html.setAttribute("data-fls-scrolllock", "");
 	const onWindowLoad = () => {

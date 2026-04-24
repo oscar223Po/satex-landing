@@ -1,4 +1,6 @@
 import "./preloader.scss"
+// У рядках шаблону @img не збирається — потрібен імпорт, інакше в проді src лишається "@img/..."
+import preloaderLogoUrl from "@img/logo.svg?url"
 
 function preloader() {
 	const html = document.documentElement
@@ -18,7 +20,7 @@ function preloader() {
 	const markup = `
 		<div class="fls-preloader">
 			<div class="fls-preloader__body">
-				<img class="fls-preloader__logo" src="@img/logo.svg" alt="" decoding="async">
+				<img class="fls-preloader__logo" src="${preloaderLogoUrl}" alt="Satex" width="96" height="26" decoding="async">
 			</div>
 		</div>`
 	document.body.insertAdjacentHTML("beforeend", markup)
