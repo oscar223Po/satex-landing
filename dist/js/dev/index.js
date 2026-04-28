@@ -359,9 +359,6 @@ function animateCSSModeScroll({ swiper, targetPosition, side }) {
 	};
 	animate();
 }
-function getSlideTransformEl(slideEl) {
-	return slideEl.querySelector(".swiper-slide-transform") || slideEl.shadowRoot && slideEl.shadowRoot.querySelector(".swiper-slide-transform") || slideEl;
-}
 function elementChildren(element, selector = "") {
 	const window = getWindow();
 	const children = [...element.children];
@@ -441,14 +438,6 @@ function elementParents(el, selector) {
 		parent = parent.parentElement;
 	}
 	return parents;
-}
-function elementTransitionEnd(el, callback) {
-	function fireCallBack(e) {
-		if (e.target !== el) return;
-		callback.call(el, e);
-		el.removeEventListener("transitionend", fireCallBack);
-	}
-	if (callback) el.addEventListener("transitionend", fireCallBack);
 }
 function elementOuterSize(el, size, includeMargins) {
 	const window = getWindow();
@@ -3365,152 +3354,19 @@ function Navigation({ swiper, extendParams, on, emit }) {
 	});
 }
 //#endregion
-//#region node_modules/swiper/shared/effect-init.mjs
-function effectInit(params) {
-	const { effect, swiper, on, setTranslate, setTransition, overwriteParams, perspective, recreateShadows, getEffectParams } = params;
-	on("beforeInit", () => {
-		if (swiper.params.effect !== effect) return;
-		swiper.classNames.push(`${swiper.params.containerModifierClass}${effect}`);
-		if (perspective && perspective()) swiper.classNames.push(`${swiper.params.containerModifierClass}3d`);
-		const overwriteParamsResult = overwriteParams ? overwriteParams() : {};
-		Object.assign(swiper.params, overwriteParamsResult);
-		Object.assign(swiper.originalParams, overwriteParamsResult);
-	});
-	on("setTranslate _virtualUpdated", () => {
-		if (swiper.params.effect !== effect) return;
-		setTranslate();
-	});
-	on("setTransition", (_s, duration) => {
-		if (swiper.params.effect !== effect) return;
-		setTransition(duration);
-	});
-	on("transitionEnd", () => {
-		if (swiper.params.effect !== effect) return;
-		if (recreateShadows) {
-			if (!getEffectParams || !getEffectParams().slideShadows) return;
-			swiper.slides.forEach((slideEl) => {
-				slideEl.querySelectorAll(".swiper-slide-shadow-top, .swiper-slide-shadow-right, .swiper-slide-shadow-bottom, .swiper-slide-shadow-left").forEach((shadowEl) => shadowEl.remove());
-			});
-			recreateShadows();
-		}
-	});
-	let requireUpdateOnVirtual;
-	on("virtualUpdate", () => {
-		if (swiper.params.effect !== effect) return;
-		if (!swiper.slides.length) requireUpdateOnVirtual = true;
-		requestAnimationFrame(() => {
-			if (requireUpdateOnVirtual && swiper.slides && swiper.slides.length) {
-				setTranslate();
-				requireUpdateOnVirtual = false;
-			}
-		});
-	});
-}
-//#endregion
-//#region node_modules/swiper/shared/effect-target.mjs
-function effectTarget(effectParams, slideEl) {
-	const transformEl = getSlideTransformEl(slideEl);
-	if (transformEl !== slideEl) {
-		transformEl.style.backfaceVisibility = "hidden";
-		transformEl.style["-webkit-backface-visibility"] = "hidden";
-	}
-	return transformEl;
-}
-//#endregion
-//#region node_modules/swiper/shared/effect-virtual-transition-end.mjs
-function effectVirtualTransitionEnd({ swiper, duration, transformElements, allSlides }) {
-	const { activeIndex } = swiper;
-	const getSlide = (el) => {
-		if (!el.parentElement) return swiper.slides.find((slideEl) => slideEl.shadowRoot && slideEl.shadowRoot === el.parentNode);
-		return el.parentElement;
-	};
-	if (swiper.params.virtualTranslate && duration !== 0) {
-		let eventTriggered = false;
-		let transitionEndTarget;
-		if (allSlides) transitionEndTarget = transformElements;
-		else transitionEndTarget = transformElements.filter((transformEl) => {
-			const el = transformEl.classList.contains("swiper-slide-transform") ? getSlide(transformEl) : transformEl;
-			return swiper.getSlideIndex(el) === activeIndex;
-		});
-		transitionEndTarget.forEach((el) => {
-			elementTransitionEnd(el, () => {
-				if (eventTriggered) return;
-				if (!swiper || swiper.destroyed) return;
-				eventTriggered = true;
-				swiper.animating = false;
-				const evt = new window.CustomEvent("transitionend", {
-					bubbles: true,
-					cancelable: true
-				});
-				swiper.wrapperEl.dispatchEvent(evt);
-			});
-		});
-	}
-}
-//#endregion
-//#region node_modules/swiper/modules/effect-fade.mjs
-function EffectFade({ swiper, extendParams, on }) {
-	extendParams({ fadeEffect: { crossFade: false } });
-	const setTranslate = () => {
-		const { slides } = swiper;
-		const params = swiper.params.fadeEffect;
-		for (let i = 0; i < slides.length; i += 1) {
-			const slideEl = swiper.slides[i];
-			let tx = -slideEl.swiperSlideOffset;
-			if (!swiper.params.virtualTranslate) tx -= swiper.translate;
-			let ty = 0;
-			if (!swiper.isHorizontal()) {
-				ty = tx;
-				tx = 0;
-			}
-			const slideOpacity = swiper.params.fadeEffect.crossFade ? Math.max(1 - Math.abs(slideEl.progress), 0) : 1 + Math.min(Math.max(slideEl.progress, -1), 0);
-			const targetEl = effectTarget(params, slideEl);
-			targetEl.style.opacity = slideOpacity;
-			targetEl.style.transform = `translate3d(${tx}px, ${ty}px, 0px)`;
-		}
-	};
-	const setTransition = (duration) => {
-		const transformElements = swiper.slides.map((slideEl) => getSlideTransformEl(slideEl));
-		transformElements.forEach((el) => {
-			el.style.transitionDuration = `${duration}ms`;
-		});
-		effectVirtualTransitionEnd({
-			swiper,
-			duration,
-			transformElements,
-			allSlides: true
-		});
-	};
-	effectInit({
-		effect: "fade",
-		swiper,
-		on,
-		setTranslate,
-		setTransition,
-		overwriteParams: () => ({
-			slidesPerView: 1,
-			slidesPerGroup: 1,
-			watchSlidesProgress: true,
-			spaceBetween: 0,
-			virtualTranslate: !swiper.params.cssMode
-		})
-	});
-}
-//#endregion
 //#region src/components/layout/slider/slider.js
 function initSliders() {
 	if (document.querySelector("[data-fls-slider]")) new Swiper("[data-fls-slider]", {
-		modules: [Navigation, EffectFade],
+		modules: [Navigation],
 		observer: true,
 		observeParents: true,
 		slidesPerView: 1,
-		spaceBetween: 0,
+		spaceBetween: 25,
 		autoHeight: true,
-		speed: 800,
+		speed: 500,
 		loop: true,
 		allowTouchMove: false,
 		simulateTouch: false,
-		effect: "fade",
 		navigation: {
 			prevEl: ".controls-case__arrow--prev",
 			nextEl: ".controls-case__arrow--next"
@@ -4169,6 +4025,8 @@ document.addEventListener("DOMContentLoaded", preloader);
 //#region src/components/effects/marquee/marquee.js
 /** Same breakpoint as styles/settings.scss $tablet with @media (width < toEm($tablet)). */
 var MARQUEE_TABLET_MAX_PX = 992;
+/** Один debounce + rAF на всі чортоги — інакше N resize × важкий init() блокує головний потік */
+var RESIZE_DEBOUNCE_MS = 220;
 var marquee = () => {
 	const $marqueeArray = document.querySelectorAll("[data-fls-marquee]");
 	const ATTR_NAMES = {
@@ -4178,29 +4036,6 @@ var marquee = () => {
 	};
 	if (!$marqueeArray.length) return;
 	const { head } = document;
-	const debounce = (delay, fn) => {
-		let timerId;
-		return (...args) => {
-			if (timerId) clearTimeout(timerId);
-			timerId = setTimeout(() => {
-				fn(...args);
-				timerId = null;
-			}, delay);
-		};
-	};
-	const onWindowWidthResize = (cb) => {
-		if (!cb && !isFunction(cb)) return;
-		let prevWidth = 0;
-		const handleResize = () => {
-			const currentWidth = window.innerWidth;
-			if (prevWidth !== currentWidth) {
-				prevWidth = currentWidth;
-				cb();
-			}
-		};
-		window.addEventListener("resize", debounce(50, handleResize));
-		handleResize();
-	};
 	const buildMarquee = (marqueeNode) => {
 		if (!marqueeNode) return;
 		const $marquee = marqueeNode;
@@ -4213,6 +4048,7 @@ var marquee = () => {
 		if (isVertical) return $el.offsetHeight;
 		return $el.offsetWidth;
 	};
+	const refreshers = [];
 	$marqueeArray.forEach(($wrapper) => {
 		if (!$wrapper) return;
 		buildMarquee($wrapper);
@@ -4236,6 +4072,7 @@ var marquee = () => {
 		let index = 0;
 		let counterDuplicateElements = 0;
 		const initEvents = () => {
+			$marqueeInner.removeEventListener("animationiteration", onChangeStartPosition);
 			if (startPosition) $marqueeInner.addEventListener("animationiteration", onChangeStartPosition);
 			if (!isMousePaused) return;
 			$marqueeInner.removeEventListener("mouseenter", onChangePaused);
@@ -4246,21 +4083,21 @@ var marquee = () => {
 		const onChangeStartPosition = () => {
 			startPosition = 0;
 			$marqueeInner.removeEventListener("animationiteration", onChangeStartPosition);
-			onResize();
+			refresh();
 		};
-		const setBaseStyles = (firstScreenVisibleSize) => {
+		const setBaseStyles = (visibleSize) => {
 			let baseStyle = "display: flex; flex-wrap: nowrap;";
 			if (isVertical) {
 				baseStyle += `
 				flex-direction: column;
 				position: relative;
 				will-change: transform;`;
-				if (direction === "bottom") baseStyle += `top: -${firstScreenVisibleSize}px;`;
+				if (direction === "bottom") baseStyle += `top: -${visibleSize}px;`;
 			} else {
 				baseStyle += `
 				position: relative;
 				will-change: transform;`;
-				if (direction === "right") baseStyle += `inset-inline-start: -${firstScreenVisibleSize}px;;`;
+				if (direction === "right") baseStyle += `inset-inline-start: -${visibleSize}px;;`;
 			}
 			$marqueeInner.style.cssText = baseStyle;
 		};
@@ -4344,7 +4181,7 @@ var marquee = () => {
 			animation();
 			initEvents();
 		};
-		const onResize = () => {
+		const refresh = () => {
 			head.querySelector(`.${animName}`)?.remove();
 			init();
 		};
@@ -4352,8 +4189,27 @@ var marquee = () => {
 			const { type, target } = e;
 			target.style.animationPlayState = type === "mouseenter" ? "paused" : "running";
 		};
-		onWindowWidthResize(onResize);
+		refreshers.push(refresh);
+		refresh();
 	});
+	let resizeTimer = null;
+	let resizeRaf = null;
+	let lastFlushedWidth = window.innerWidth;
+	const flushAll = () => {
+		resizeRaf = null;
+		lastFlushedWidth = window.innerWidth;
+		refreshers.forEach((fn) => fn());
+	};
+	const onResize = () => {
+		if (resizeTimer) clearTimeout(resizeTimer);
+		resizeTimer = setTimeout(() => {
+			resizeTimer = null;
+			if (window.innerWidth === lastFlushedWidth) return;
+			if (resizeRaf) cancelAnimationFrame(resizeRaf);
+			resizeRaf = requestAnimationFrame(flushAll);
+		}, RESIZE_DEBOUNCE_MS);
+	};
+	window.addEventListener("resize", onResize, { passive: true });
 };
 marquee();
 //#endregion

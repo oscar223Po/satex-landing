@@ -58,7 +58,7 @@
 		white-space: nowrap;
 		span {
 			cursor: pointer;
-			transition: 0.5s;
+			transition: 0.25s;
 			position: relative;
 			display: inline-block;
 			&::after {
@@ -66,7 +66,7 @@
 				top: 0;
 				opacity: 0;
 				right: -20px;
-				transition: 0.7s;
+				transition: 0.3s;
 				position: absolute;
 			}
 		}

@@ -192,6 +192,7 @@
 	}
 	// .item-marquee__rating
 	&__rating {
+		pointer-events: none;
 		@include adaptiveValue("margin-bottom", 20, 8, 0, $containerWidth, $mobile);
 	}
 	// .item-marquee__text

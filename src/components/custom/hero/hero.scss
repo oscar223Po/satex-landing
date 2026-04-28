@@ -123,15 +123,20 @@
 		span {
 			color: #fff;
 			font-weight: 500;
-			line-height: 1.3;
-			padding: 10px 14px;
+			display: inline-flex;
+			align-items: center;
+			line-height: 1;
+			justify-content: center;
+			padding-block: 10px;
+			padding-inline: 14px;
 			border-radius: 32px;
 			background: rgba(255, 255, 255, 0.2);
 			@include adaptiveValue("font-size", 15, 12);
 		}
 		@media (width < toEm($mobile)) {
 			span {
-				padding: 6px 12px;
+				padding-block: 6px;
+				padding-inline: 12px;
 			}
 		}
 	}
@@ -212,8 +217,8 @@
 		/* Animations */
 		opacity: 0;
 		transition:
-			opacity 1s ease-in-out 1.7s,
-			transform 1s ease-in-out 1.7s;
+			opacity 0.5s ease-in-out 1.4s,
+			transform 0.5s ease-in-out 1.4s;
 		transform: translateX(50px);
 		.--watcher-view & {
 			opacity: 1;
@@ -237,8 +242,8 @@
 		/* Animations */
 		opacity: 0;
 		transition:
-			opacity 1s ease-in-out 0.8s,
-			transform 1s ease-in-out 0.8s;
+			opacity 0.5s ease-in-out 0.8s,
+			transform 0.5s ease-in-out 0.8s;
 		transform: translateY(100%);
 		.--watcher-view & {
 			opacity: 1;
@@ -254,8 +259,8 @@
 		/* Animations */
 		opacity: 0;
 		transition:
-			opacity 1s ease-in-out 1.7s,
-			transform 1s ease-in-out 1.7s;
+			opacity 0.5s ease-in-out 1.4s,
+			transform 0.5s ease-in-out 1.4s;
 		transform: translateX(-50px);
 		.--watcher-view & {
 			opacity: 1;

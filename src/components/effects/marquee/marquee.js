@@ -1,10 +1,10 @@
-// Підключення функціоналу "Чортоги Фрілансера"
-import { FLS } from "@js/common/functions.js";
-
 import "./marquee.scss";
 
 /** Same breakpoint as styles/settings.scss $tablet with @media (width < toEm($tablet)). */
 const MARQUEE_TABLET_MAX_PX = 992;
+
+/** Один debounce + rAF на всі чортоги — інакше N resize × важкий init() блокує головний потік */
+const RESIZE_DEBOUNCE_MS = 220;
 
 const marquee = () => {
 	const $marqueeArray = document.querySelectorAll("[data-fls-marquee]");
@@ -18,38 +18,6 @@ const marquee = () => {
 
 	const { head } = document;
 
-	const debounce = (delay, fn) => {
-		let timerId;
-		return (...args) => {
-			if (timerId) {
-				clearTimeout(timerId);
-			}
-			timerId = setTimeout(() => {
-				fn(...args);
-				timerId = null;
-			}, delay);
-		};
-	};
-
-	const onWindowWidthResize = (cb) => {
-		if (!cb && !isFunction(cb)) return;
-
-		let prevWidth = 0;
-
-		const handleResize = () => {
-			const currentWidth = window.innerWidth;
-
-			if (prevWidth !== currentWidth) {
-				prevWidth = currentWidth;
-				cb();
-			}
-		};
-
-		window.addEventListener("resize", debounce(50, handleResize));
-
-		handleResize();
-	};
-
 	const buildMarquee = (marqueeNode) => {
 		if (!marqueeNode) return;
 
@@ -57,8 +25,7 @@ const marquee = () => {
 		const $childElements = $marquee.children;
 
 		if (!$childElements.length) return;
-		//$marquee.setAttribute(ATTR_NAMES.wrapper, '');
-		Array.from($childElements).forEach(($childItem) => $childItem.setAttribute(ATTR_NAMES.item, ''));
+		Array.from($childElements).forEach(($childItem) => $childItem.setAttribute(ATTR_NAMES.item, ""));
 
 		const htmlStructure = `<div ${ATTR_NAMES.inner}>${$marquee.innerHTML}</div>`;
 		$marquee.innerHTML = htmlStructure;
@@ -68,6 +35,8 @@ const marquee = () => {
 		if (isVertical) return $el.offsetHeight;
 		return $el.offsetWidth;
 	};
+
+	const refreshers = [];
 
 	$marqueeArray.forEach(($wrapper) => {
 		if (!$wrapper) return;
@@ -98,7 +67,10 @@ const marquee = () => {
 		let counterDuplicateElements = 0;
 
 		const initEvents = () => {
-			if (startPosition) $marqueeInner.addEventListener("animationiteration", onChangeStartPosition);
+			$marqueeInner.removeEventListener("animationiteration", onChangeStartPosition);
+			if (startPosition) {
+				$marqueeInner.addEventListener("animationiteration", onChangeStartPosition);
+			}
 
 			if (!isMousePaused) return;
 			$marqueeInner.removeEventListener("mouseenter", onChangePaused);
@@ -110,10 +82,10 @@ const marquee = () => {
 		const onChangeStartPosition = () => {
 			startPosition = 0;
 			$marqueeInner.removeEventListener("animationiteration", onChangeStartPosition);
-			onResize();
+			refresh();
 		};
 
-		const setBaseStyles = (firstScreenVisibleSize) => {
+		const setBaseStyles = (visibleSize) => {
 			let baseStyle = "display: flex; flex-wrap: nowrap;";
 
 			if (isVertical) {
@@ -123,7 +95,7 @@ const marquee = () => {
 				will-change: transform;`;
 
 				if (direction === "bottom") {
-					baseStyle += `top: -${firstScreenVisibleSize}px;`;
+					baseStyle += `top: -${visibleSize}px;`;
 				}
 			} else {
 				baseStyle += `
@@ -131,7 +103,7 @@ const marquee = () => {
 				will-change: transform;`;
 
 				if (direction === "right") {
-					baseStyle += `inset-inline-start: -${firstScreenVisibleSize}px;;`;
+					baseStyle += `inset-inline-start: -${visibleSize}px;;`;
 				}
 			}
 
@@ -251,7 +223,7 @@ const marquee = () => {
 			initEvents();
 		};
 
-		const onResize = () => {
+		const refresh = () => {
 			head.querySelector(`.${animName}`)?.remove();
 			init();
 		};
@@ -262,8 +234,32 @@ const marquee = () => {
 			target.style.animationPlayState = type === "mouseenter" ? "paused" : "running";
 		};
 
-		onWindowWidthResize(onResize);
+		refreshers.push(refresh);
+		refresh();
 	});
+
+	let resizeTimer = null;
+	let resizeRaf = null;
+	let lastFlushedWidth = window.innerWidth;
+
+	const flushAll = () => {
+		resizeRaf = null;
+		lastFlushedWidth = window.innerWidth;
+		refreshers.forEach((fn) => fn());
+	};
+
+	const onResize = () => {
+		if (resizeTimer) clearTimeout(resizeTimer);
+		resizeTimer = setTimeout(() => {
+			resizeTimer = null;
+			const w = window.innerWidth;
+			if (w === lastFlushedWidth) return;
+			if (resizeRaf) cancelAnimationFrame(resizeRaf);
+			resizeRaf = requestAnimationFrame(flushAll);
+		}, RESIZE_DEBOUNCE_MS);
+	};
+
+	window.addEventListener("resize", onResize, { passive: true });
 };
 
 marquee();

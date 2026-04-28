@@ -8,7 +8,7 @@
 // При необхідності підключаємо додаткові модулі слайдера, вказуючи їх у {} через кому
 // Приклад: { Navigation, Autoplay }
 import Swiper from 'swiper'
-import { EffectFade, Navigation } from 'swiper/modules'
+import { Navigation } from 'swiper/modules'
 /*
 Основні модулі слайдера:
 Navigation, Pagination, Autoplay, 
@@ -33,13 +33,13 @@ function initSliders() {
 		new Swiper('[data-fls-slider]', { // <- Вказуємо склас потрібного слайдера
 			// Підключаємо модулі слайдера
 			// для конкретного випадку
-			modules: [Navigation, EffectFade],
+			modules: [Navigation],
 			observer: true,
 			observeParents: true,
 			slidesPerView: 1,
-			spaceBetween: 0,
+			spaceBetween: 25,
 			autoHeight: true,
-			speed: 800,
+			speed: 500,
 			loop: true,
 			// Лише кнопки навігації — без свайпу / перетягування мишею
 			allowTouchMove: false,
@@ -48,8 +48,8 @@ function initSliders() {
 			//lazy: true,
 
 			// Ефекти
-			effect: 'fade',
 			/*
+			effect: 'fade',
 			autoplay: {
 				delay: 3000,
 				disableOnInteraction: false,
