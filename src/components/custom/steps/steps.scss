@@ -1,8 +1,5 @@
 .steps {
 	@include adaptiveValue("padding-block", 150, 70);
-	// .steps__container
-	&__container {
-	}
 	// .steps__title
 	&__title {
 		/* Animations */
@@ -29,19 +26,17 @@
 			grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 		}
 	}
-	// .steps__item
-	&__item {
-	}
 }
 .item-steps {
+	opacity: 0;
 	display: grid;
+	transition:
+		box-shadow 0.3s ease-in-out,
+		opacity 1s ease-in-out 0.3s,
+		transform 1s ease-in-out 0.3s;
 	@include adaptiveValue("padding", 32, 16);
 	&--01 {
 		/* Animations */
-		opacity: 0;
-		transition:
-			opacity 1s ease-in-out 0.3s,
-			transform 1s ease-in-out 0.3s;
 		transform: translateX(-25px);
 		.--watcher-view & {
 			opacity: 1;
@@ -52,10 +47,6 @@
 	}
 	&--02 {
 		/* Animations */
-		opacity: 0;
-		transition:
-			opacity 1s ease-in-out 0.3s,
-			transform 1s ease-in-out 0.3s;
 		transform: translateY(25px);
 		.--watcher-view & {
 			opacity: 1;
@@ -66,10 +57,6 @@
 	}
 	&--03 {
 		/* Animations */
-		opacity: 0;
-		transition:
-			opacity 1s ease-in-out 0.3s,
-			transform 1s ease-in-out 0.3s;
 		transform: translateX(25px);
 		.--watcher-view & {
 			opacity: 1;
@@ -80,7 +67,7 @@
 	}
 	// .item-steps__content
 	&__content {
-		gap: 10px;
+		gap: 12px;
 		z-index: 1;
 		display: grid;
 		position: relative;
@@ -102,6 +89,7 @@
 		}
 		h3 {
 			font-weight: 600;
+			line-height: 1.1;
 			@include adaptiveValue("font-size", 32, 26);
 		}
 		p {

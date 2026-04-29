@@ -15,9 +15,11 @@
 					</div>
 				</div>
 			</div>
-			<form action="#" class="access-popup__form form-popup">
-				<input data-fls-input autocomplete="off" type="email" name="form[]" data-error="Error" placeholder="Enter your email" class="form-popup__input input">
-				<button data-fls-button type="button" class="form-popup__button form-popup__button--icon-check"><span>Notify Me</span></button>
+			<form data-fls-form action="#" class="access-popup__form form-popup">
+				<div class="form-popup__line">
+					<input required data-fls-input data-fls-form-errtext="Wrong Email" autocomplete="off" type="email" name="form[]" data-error="Error" placeholder="Enter your email" class="form-popup__input input">
+				</div>
+				<button data-fls-button type="submit" class="form-popup__button form-popup__button--icon-check"><span>Notify Me</span></button>
 			</form>
 		</div>
 	</div>

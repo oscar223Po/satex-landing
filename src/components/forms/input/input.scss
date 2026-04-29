@@ -17,15 +17,23 @@ textarea {
 	font-weight: 600;
 	border-radius: 59px;
 	caret-color: inherit;
+	transition: border 0.2s;
 	background-color: #fff;
+	border: 2px solid transparent;
 	&.--form-focus {
 	}
 	&.--form-error {
+		border: 2px solid #ff0000;
+		&::placeholder {
+			color: #ff0000 !important;
+		}
 	}
 }
 .input[placeholder]:not([data-fls-placeholder-nohiden]) {
 	&::placeholder {
-		transition: opacity 0.3s;
+		transition:
+			color 0.2s,
+			opacity 0.2s;
 		color: rgba(1, 1, 1, 0.6);
 	}
 	&:focus::placeholder {

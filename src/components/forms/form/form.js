@@ -1,7 +1,7 @@
 // Підключення функціоналу "Чертоги Фрілансера"
-import { gotoBlock, FLS } from "@js/common/functions.js";
+import { FLS, gotoBlock } from "@js/common/functions.js"
 // Підключення функціоналу модуля форм
-import { formValidate } from "../_functions.js";
+import { formValidate } from "../_functions.js"
 
 import './form.scss'
 

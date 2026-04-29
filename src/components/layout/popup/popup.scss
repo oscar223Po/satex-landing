@@ -190,12 +190,29 @@ html[data-fls-popup-open] body::after {
 		gap: 16px;
 		flex-direction: column;
 	}
-	&__input {
+	&__line {
+		width: 100%;
 		max-width: 350px;
+		position: relative;
+		[data-fls-form-error] {
+			left: 26px;
+			// right: 0;
+			display: flex;
+			font-size: 14px;
+			font-weight: 500;
+			color: #ff0000;
+			position: absolute;
+			top: calc(100% + 7px);
+			justify-content: center;
+		}
+		@media (width < toEm($mobile)) {
+			max-width: 100%;
+		}
+	}
+	&__input {
 		@media (width < toEm($mobile)) {
 			height: 53px;
 			font-size: 16px;
-			max-width: 100%;
 		}
 	}
 	&__button {
