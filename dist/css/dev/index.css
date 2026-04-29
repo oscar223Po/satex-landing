@@ -2277,9 +2277,6 @@ html[data-fls-popup-open] body::after {
   .steps__body {
     gap: clamp( 0.625rem , 0.236859838275rem  +  0.8086253369vw , 1rem );
   }
-  .header__aside {
-    gap: clamp( 1.125rem , -0.039420485175rem  +  2.4258760108vw , 2.25rem );
-  }
   .rating {
     --rating-star-width: clamp( 0.875rem , 0.09871967655rem  +  1.6172506739vw , 1.625rem );
   }
@@ -2515,9 +2512,6 @@ html[data-fls-popup-open] body::after {
   }
   .item-steps__content p {
     font-size: 1.125rem;
-  }
-  .header__aside {
-    gap: 2.25rem;
   }
   .rating {
     --rating-star-width: 1.625rem;

@@ -37,7 +37,6 @@
 	&__aside {
 		display: flex;
 		align-items: center;
-		@include adaptiveValue("gap", 36, 18, 2, $containerWidth, 768);
 	}
 	// .header__logo
 	&__logo {
